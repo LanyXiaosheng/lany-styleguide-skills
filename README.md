@@ -77,8 +77,30 @@ cp -R google-style-python google-style-ts .agents/skills/
  「专家·技能·连接器」页面上传技能包。上传时选择单个技能目录并保留
   `SKILL.md` 和 `references/`。
 
-安装完成后，可以直接提出具体编码任务，例如“按 Google Python 风格重构此
-模块”。如果没有自动启用，明确说“请使用 `google-style-python` 技能”。
+## 在项目中调用技能
+
+先打开或切换到目标项目，再在对话中调用与文件语言匹配的技能。下面以
+`google-style-python` 为例，要求助手检查项目中的 Python 文件并按规范修改：
+
+```text
+请使用 google-style-python 技能检查当前项目的 src/ 目录，找出不符合
+Google Python 风格的代码并直接修复。完成后列出修改文件和主要调整。
+```
+
+支持快捷调用语法的平台可直接使用技能名：
+
+| 工具 | 示例调用 |
+| --- | --- |
+| Codex | `$google-style-python 检查并修复当前项目的 src/` |
+| Claude Code | `/google-style-python 检查并修复当前项目的 src/` |
+| Grok | `/google-style-python 检查并修复当前项目的 src/` |
+| Kiro | `/google-style-python 检查并修复当前项目的 src/` |
+| Qoder CLI | `/google-style-python 检查并修复当前项目的 src/` |
+| QoderWork | 在 Skills 页面启用技能，再要求检查当前项目的 `src/` 目录 |
+| WorkBuddy | 在对话中添加该技能，再要求检查当前项目的 `src/` 目录 |
+
+把 `google-style-python` 换成其他技能名，并将 `src/` 换成项目中的目标目录。
+也可以要求助手先审查并报告问题，不直接修改文件。
 
 ## 来源
 
