@@ -1,7 +1,8 @@
 # lany-styleguide-skills
 
-面向 AI 编程助手的 Google 风格指南技能集合。每个技能都包含
-`SKILL.md` 使用说明和 `references/deep.md` 详细规范。
+为 AI 编程助手提供的 Google 风格指南技能集合。每个技能包含
+`SKILL.md` 使用说明和 `references/deep.md` 详细规范，适用于支持
+Agent Skills 格式的工具。
 
 ## 技能列表
 
@@ -25,20 +26,70 @@
 | `google-style-vim` | Vimscript |
 | `google-style-xml` | XML |
 
-## 安装到 Codex
+## 平台兼容性
 
-将需要的技能目录复制到 `$CODEX_HOME/skills`。未设置 `CODEX_HOME` 时，默认
-目录为 `~/.codex/skills`。例如，在仓库根目录运行：
+技能采用 `SKILL.md` + YAML frontmatter + Markdown 指令，并通过
+`references/deep.md` 提供详细规则。以下工具支持或可导入这种目录结构：
+
+| 工具 | 用户级目录 | 项目级目录 |
+| --- | --- | --- |
+| Codex | `~/.agents/skills/` | `.agents/skills/` |
+| Claude Code | `~/.claude/skills/` | `.claude/skills/` |
+| Grok | `~/.grok/skills/` | `.grok/skills/` |
+| Kiro | `~/.kiro/skills/` | `.kiro/skills/` |
+| Qoder CLI | `~/.qoder/skills/` | `.qoder/skills/` |
+| QoderWork | `~/.qoderwork/skills/` | 通过应用导入 |
+| WorkBuddy | 通过应用导入 | `.codebuddy/skills/` |
+
+用户级路径适用于该账号下的所有项目；项目级路径只对当前仓库生效。
+QoderWork 和 WorkBuddy 也可以从技能页面上传技能包。
+
+## 安装
+
+把需要的技能文件夹复制到对应工具的技能目录，保留整个文件夹，不能只复制
+`SKILL.md`，因为技能会引用 `references/deep.md`。
+
+例如，在 macOS 或 Linux 项目根目录安装 Python 和 TypeScript 技能：
 
 ```bash
-cp -R google-style-python google-style-ts ~/.codex/skills/
+mkdir -p .agents/skills
+cp -R google-style-python google-style-ts .agents/skills/
 ```
 
-将示例中的目录名替换为需要安装的技能。安装后，Codex 会在相关语言或
-文档任务中调用对应技能；也可以直接阅读技能目录中的 `SKILL.md` 和
-`references/deep.md`。
+将 `.agents/skills/` 替换成上表中对应的项目级目录，即可用于其他支持该
+格式的工具。若使用用户级安装，请将目标换成对应的用户级目录。
+
+### 各工具导入方式
+
+- **Codex**：复制到 `.agents/skills/`（项目级）或
+  `~/.agents/skills/`（用户级），然后重新开始会话。
+- **Claude Code**：复制到 `.claude/skills/` 或 `~/.claude/skills/`。
+  请求相关语言任务时自动触发，也可明确要求使用技能名。
+- **Grok**：复制到 `.grok/skills/` 或 `~/.grok/skills/`。Grok CLI 可用
+  `/skills` 查看、用 `/skills <技能名>` 加载技能。
+- **Kiro**：复制到 `.kiro/skills/` 或 `~/.kiro/skills/`，也可在
+  Agent Steering & Skills 面板选择导入 GitHub 技能目录。
+- **Qoder CLI**：复制到 `.qoder/skills/` 或 `~/.qoder/skills/`，然后
+  自动触发或通过 `/技能名` 调用。
+- **QoderWork**：在 Skills 页面上传包含技能目录的 ZIP，或把技能目录复制到
+  `~/.qoderwork/skills/`。
+- **WorkBuddy**：桌面版可放入项目的 `.codebuddy/skills/`，也可在
+ 「专家·技能·连接器」页面上传技能包。上传时选择单个技能目录并保留
+  `SKILL.md` 和 `references/`。
+
+安装完成后，可以直接提出具体编码任务，例如“按 Google Python 风格重构此
+模块”。如果没有自动启用，明确说“请使用 `google-style-python` 技能”。
 
 ## 来源
 
 本仓库的技能内容整理自
 [byoungfeng/styleguide-skills](https://github.com/byoungfeng/styleguide-skills)。
+
+## 参考文档
+
+- [Codex Skills](https://developers.openai.com/codex/skills)
+- [Claude Code Skills](https://docs.anthropic.com/en/docs/claude-code/skills)
+- [Grok Skills](https://github.com/xai-org/grok-build/blob/main/crates/codegen/xai-grok-shell/README.md)
+- [Kiro Agent Skills](https://kiro.dev/docs/cli/skills/)
+- [Qoder Skills](https://docs.qoder.com/cli/Skills)
+- [WorkBuddy Skills](https://www.codebuddy.cn/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market)
